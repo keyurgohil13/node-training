@@ -1,7 +1,41 @@
 <section style="padding: 30px 0px;">
 
     <form method="post" action="/add">
-        <input type="text" name="todo" id="todo"/>
-        <input type="submit" value="Add" />
+        <input type="hidden" name="id" value="<%= singleTodo.id %>" />
+        <% if(isEdit){ %>
+            <input type="text" name="editTodo" id="editTodo" value="<%= singleTodo.task %>"/>
+            <input type="submit" value="Save" />
+
+            <% } else { %>
+                <input type="text" name="todo" id="todo" />
+                <input type="submit" value="Add" />
+
+
+                <% } %>
     </form>
+
+    <ul>
+        <% todos.map((todo)=> { %>
+
+            <li>
+                <span class="display: inline-block, padding: 10px">
+                    <%= todo.id %>
+                </span>
+                <span>
+                    <%= todo.task %>
+                </span>
+                <span>
+                    <a href="/edit/<%= todo.id%>  ">
+                        Edit
+                    </a>
+                    ||
+                    <a href="/delete/<%= todo.id%>">
+                        Delete
+                    </a>
+                </span>
+            </li>
+
+
+            <% }) %>
+    </ul>
 </section>
