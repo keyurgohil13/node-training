@@ -1,44 +1,44 @@
-let todos = [];
 
-const getTodo = (req, res) => {
-    res.render('home', {
+const Todo = require("../models/todoModel");
+
+// let todos = [];
+
+
+const getTodo =async (req, res) => {
+   try{
+
+    const todos =await Todo.find();
+
+    res.render('home',{
         todos,
-        isEdit: false,
-        singleTodo: {
-            id: '',
-            task: ''
-        }
-    });
+        singleTodo:{
+            id:'',
+            task:''
+        },
+        isEdit : false
+    })
+
+
+   }catch(err){
+    console.log("Error", err);
+   }
 }
 
-const addTodo = (req, res) => {
-    let { id } = req.body;
-    if (id) {
+const addTodo = async (req, res) => {
+  const {todo} = req.body;
 
-        const { editTodo } = req.body;
+  try{
+    const ntodo = new Todo({
+        task: todo
+    });
 
-        todos.filter((todo) => {
-            if (todo.id == id) {
-                todo.task = editTodo;
-            }
-        })
+    await ntodo.save();
+    console.log("Data Create....");
+    res.redirect('/');
 
-        return res.redirect('/')
-
-    }
-    else {
-        let id = todos.length + 101;
-
-        let { todo } = req.body;
-
-        let nTodo = {
-            id: id,
-            task: todo
-        }
-
-        todos.push(nTodo);
-        return res.redirect('/');
-    }
+  }catch(err){
+    console.log(err);
+  }
 }
 
 const singleTodo = (req, res) => {
