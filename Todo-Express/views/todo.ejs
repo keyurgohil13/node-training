@@ -1,18 +1,20 @@
 <section style="padding: 30px 0px;">
 
-    <form method="post" action="/add">
-        <input type="hidden" name="id" value="<%= singleTodo.id %>" />
-        <% if(isEdit){ %>
+    <% if(isEdit){ %>
+        <form method="post" action="/edit">
+            <input type="hidden" name="id" value="<%= singleTodo.id %>" />
             <input type="text" name="editTodo" id="editTodo" value="<%= singleTodo.task %>"/>
             <input type="submit" value="Save" />
+        </form>
 
             <% } else { %>
-                <input type="text" name="todo" id="todo" />
-                <input type="submit" value="Add" />
+        <form method="post" action="/add">
+            <input type="text" name="todo" id="todo" />
+            <input type="submit" value="Add" />
+        </form>
 
 
                 <% } %>
-    </form>
 
     <ul>
         <% todos.map((todo)=> { %>
